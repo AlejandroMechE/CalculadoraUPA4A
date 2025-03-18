@@ -45,19 +45,22 @@ class Calculadora:
             self.expression = ""
         elif button == "=":
             try:
-                self.expression = self.expression.replace("pi", str(math.pi))
-                self.expression = self.expression.replace("sqrt", "e^0.5*")
-                postfix = infix2posfix(self.expression)
-                resultado = pos2Value(postfix)
-                self.expression = str(resultado)
-            except Exception as e:
-                messagebox.showerror("Error", f"Expresión inválida: {e}")
+                # Convert to postfix and evaluate
+                postfix_expr = infix2posfix(self.expression)  
+                self.expression = str(pos2Value(postfix_expr))  
+            except Exception:
+                messagebox.showerror("Error", "Expresión inválida")
                 self.expression = ""
         else:
-            self.expression += button
+            # Correct inverse trig functions in input
+            if self.trig_inverse and button in ["sin", "cos", "tan"]:
+                button = "a" + button  # Change "sin" → "asin", etc.
+
+            self.expression += button  # Append to expression
 
         self.entry.delete(0, tk.END)
         self.entry.insert(tk.END, self.expression)
+
 
     def toggle_trig_mode(self):
         self.trig_inverse = not self.trig_inverse
@@ -72,6 +75,7 @@ class Calculadora:
             self.buttons["cos"].config(text="cos")
             self.buttons["tan"].config(text="tan")
             self.trig_button.config(bg="lightgray")  # Restaurar color
+
 
 if __name__ == "__main__":
     root = tk.Tk()
