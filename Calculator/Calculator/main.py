@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
+from Pila import Pilas
+from infix_to_posfix import infix2posfix
+from Pos2Valor import pos2Value
 import math
 
 class Calculadora:
@@ -9,7 +12,7 @@ class Calculadora:
         self.root.geometry("400x600")
         self.root.resizable(False, False)
 
-        self.trig_inverse = False  # Mode toggle for trig functions
+        self.trig_inverse = False  # Modo para funciones trigonométricas inversas
         self.expression = ""
 
         self.create_widgets()
@@ -30,12 +33,10 @@ class Calculadora:
 
         for text, row, col in self.button_texts:
             action = lambda t=text: self.on_button_click(t)
-            self.buttons[text] = tk.Button(self.root, text=text, font=("Arial", 16), width=5, height=2,
-                                           command=action)
+            self.buttons[text] = tk.Button(self.root, text=text, font=("Arial", 16), width=5, height=2, command=action)
             self.buttons[text].grid(row=row, column=col, sticky="nsew", padx=5, pady=5)
 
-        # Trigonometric Mode Toggle Button
-        self.trig_button = tk.Button(self.root, text="Trig Mode", font=("Arial", 14), width=12, height=2, 
+        self.trig_button = tk.Button(self.root, text="Inversas", font=("Arial", 14), width=12, height=2, 
                                      command=self.toggle_trig_mode, bg="lightgray")
         self.trig_button.grid(row=6, column=0, columnspan=5, pady=10)
 
@@ -45,19 +46,12 @@ class Calculadora:
         elif button == "=":
             try:
                 self.expression = self.expression.replace("pi", str(math.pi))
-                self.expression = self.expression.replace("sqrt", "math.sqrt")
-                self.expression = self.expression.replace("log", "math.log10")
-                self.expression = self.expression.replace("sin", "math.sin")
-                self.expression = self.expression.replace("cos", "math.cos")
-                self.expression = self.expression.replace("tan", "math.tan")
-                self.expression = self.expression.replace("asin", "math.asin")
-                self.expression = self.expression.replace("acos", "math.acos")
-                self.expression = self.expression.replace("atan", "math.atan")
-                
-                # Evaluate and update result
-                self.expression = str(eval(self.expression))
-            except Exception:
-                messagebox.showerror("Error", "Expresión inválida")
+                self.expression = self.expression.replace("sqrt", "e^0.5*")
+                postfix = infix2posfix(self.expression)
+                resultado = pos2Value(postfix)
+                self.expression = str(resultado)
+            except Exception as e:
+                messagebox.showerror("Error", f"Expresión inválida: {e}")
                 self.expression = ""
         else:
             self.expression += button
@@ -66,19 +60,18 @@ class Calculadora:
         self.entry.insert(tk.END, self.expression)
 
     def toggle_trig_mode(self):
-        """Switch between normal and inverse trigonometric functions."""
         self.trig_inverse = not self.trig_inverse
 
         if self.trig_inverse:
             self.buttons["sin"].config(text="asin")
             self.buttons["cos"].config(text="acos")
             self.buttons["tan"].config(text="atan")
-            self.trig_button.config(bg="lightblue")  # Change color to indicate inverse mode
+            self.trig_button.config(bg="lightblue")  # Indicar modo inverso
         else:
             self.buttons["sin"].config(text="sin")
             self.buttons["cos"].config(text="cos")
             self.buttons["tan"].config(text="tan")
-            self.trig_button.config(bg="lightgray")  # Reset color
+            self.trig_button.config(bg="lightgray")  # Restaurar color
 
 if __name__ == "__main__":
     root = tk.Tk()
