@@ -26,7 +26,7 @@ class Calculadora:
             ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3), ('cos', 2, 4),
             ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3), ('tan', 3, 4),
             ('0', 4, 0), ('.', 4, 1), ('C', 4, 2), ('+', 4, 3), ('log', 4, 4),
-            ('pi', 5, 0), ('sqrt', 5, 1),('ln',5,2), ('(', 5, 3), (')', 5,4), 
+            ('pi', 5, 0), ('sqrt', 5, 1), ('ln', 5, 2), ('(', 5, 3), (')', 5, 4),
             ('=', 6, 4),
         ]
 
@@ -53,15 +53,23 @@ class Calculadora:
                 messagebox.showerror("Error", "Expresión inválida")
                 self.expression = ""
         else:
-            # Correct inverse trig functions in input
-            if self.trig_inverse and button in ["sin", "cos", "tan","log","ln"]:
-                button = "a" + button  # Change "sin" → "asin", etc.
+            # Handle inverse functions
+            if self.trig_inverse:
+                if button == "sin":
+                    button = "asin"
+                elif button == "cos":
+                    button = "acos"
+                elif button == "tan":
+                    button = "atan"
+                elif button == "log":
+                    button = "10^"  # Equivalent to 10^x
+                elif button == "ln":
+                    button = "e^"  # Equivalent to e^x
 
             self.expression += button  # Append to expression
 
         self.entry.delete(0, tk.END)
         self.entry.insert(tk.END, self.expression)
-
 
     def toggle_trig_mode(self):
         self.trig_inverse = not self.trig_inverse
@@ -70,9 +78,8 @@ class Calculadora:
             self.buttons["sin"].config(text="asin")
             self.buttons["cos"].config(text="acos")
             self.buttons["tan"].config(text="atan")
-            self.buttons["log"].config(text="alog")
-            self.buttons["ln"].config(text="aln")
-            
+            self.buttons["log"].config(text="10^")  # Display correct notation
+            self.buttons["ln"].config(text="e^")    # Display correct notation
             self.trig_button.config(bg="lightblue")  # Indicar modo inverso
         else:
             self.buttons["sin"].config(text="sin")
@@ -80,7 +87,6 @@ class Calculadora:
             self.buttons["tan"].config(text="tan")
             self.buttons["log"].config(text="log")
             self.buttons["ln"].config(text="ln")
-
             self.trig_button.config(bg="lightgray")  # Restaurar color
 
 
