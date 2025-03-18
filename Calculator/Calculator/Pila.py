@@ -48,24 +48,6 @@ class Pilas:
 
 pila = Pilas()
 
-# pila.push("Jesus")
-# pila.push("Maria")
-# pila.push("Jose")
-
-
-# print(pila.get_size())
-# print(pila.get_top()) 
-
-# pila.pop()
-# print(pila.get_top())
-
-# pila.pop()
-# pila.pop()
-# pila.pop()
-
-
-# print(pila.get_top())
-# print(pila.get_size())
 
 
 

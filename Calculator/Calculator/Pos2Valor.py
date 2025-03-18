@@ -1,7 +1,6 @@
-# Evalúa una expresión en notación postfix (ej. "2 3 +") y devuelve su resultado.
 
-from Pila import Pilas  # Importamos Pilas para almacenar operandos.
-import math  # Importamos math para funciones como sin, exp, etc.
+from Pila import Pilas  
+import math  
 
 def operador(element):
     """Verifica si un token es un operador o función."""
@@ -24,8 +23,8 @@ def operar(element, pila):
         elif element == 'atan': return math.degrees(math.atan(A))
         elif element == 'log': return math.log10(A)
         elif element == 'ln': return math.log(A)
-        elif element == 'e^': return math.exp(A)  # Inversa de ln
-        elif element == '10^': return 10 ** A    # Inversa de log
+        elif element == 'e^': return math.exp(A)  
+        elif element == '10^': return 10 ** A    
     else:
         if pila.get_size() < 2:
             print("Error: faltan operandos para operador binario.")
@@ -41,24 +40,24 @@ def operar(element, pila):
 
 def pos2Value(posfix):
     """Calcula el valor de una expresión postfix."""
-    pila = Pilas()  # Pila para operandos.
-    lista = posfix.split()  # Separa la expresión en tokens.
+    pila = Pilas()  
+    lista = posfix.split()  
     
     for element in lista:
-        if not operador(element):  # Si es número, lo apilamos.
+        if not operador(element): 
             try:
                 pila.push(float(element))
             except ValueError:
                 print(f"Error: '{element}' no es válido.")
                 return None
-        else:  # Si es operador, realizamos la operación.
+        else:  
             resultado = operar(element, pila)
             if resultado is not None:
                 pila.push(resultado)
             else:
                 return None
     
-    if pila.get_size() == 1:  # Debe quedar un solo resultado.
+    if pila.get_size() == 1:  
         return pila.pop()
     else:
         print("Error: expresión postfix incorrecta.")

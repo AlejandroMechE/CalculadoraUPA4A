@@ -1,9 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
-from Pila import Pilas
 from infix_to_posfix import infix2posfix
 from Pos2Valor import pos2Value
-import math
+
 
 class Calculadora:
     def __init__(self, root):
@@ -12,7 +11,7 @@ class Calculadora:
         self.root.geometry("400x600")
         self.root.resizable(False, False)
 
-        self.trig_inverse = False  # Modo para funciones trigonométricas inversas
+        self.trig_inverse = False  
         self.expression = ""
 
         self.create_widgets()
@@ -37,7 +36,7 @@ class Calculadora:
             self.buttons[text] = tk.Button(self.root, text=text, font=("Arial", 16), width=5, height=2, command=action)
             self.buttons[text].grid(row=row, column=col, sticky="nsew", padx=5, pady=5)
 
-        self.trig_button = tk.Button(self.root, text="Inversas", font=("Arial", 14), width=12, height=2, 
+        self.trig_button = tk.Button(self.root, text="shift", font=("Arial", 14), width=12, height=2, 
                                      command=self.toggle_trig_mode, bg="lightgray")
         self.trig_button.grid(row=6, column=0, columnspan=5, pady=10)
 
@@ -46,14 +45,14 @@ class Calculadora:
             self.expression = ""
         elif button == "=":
             try:
-                # Convert to postfix and evaluate
+                
                 postfix_expr = infix2posfix(self.expression)  
                 self.expression = str(pos2Value(postfix_expr))  
             except Exception:
                 messagebox.showerror("Error", "Expresión inválida")
                 self.expression = ""
         else:
-            # Handle inverse functions
+            
             if self.trig_inverse:
                 if button == "sin":
                     button = "asin"
@@ -62,11 +61,11 @@ class Calculadora:
                 elif button == "tan":
                     button = "atan"
                 elif button == "log":
-                    button = "10^"  # Equivalent to 10^x
+                    button = "10^" 
                 elif button == "ln":
-                    button = "e^"  # Equivalent to e^x
+                    button = "e^"  
 
-            self.expression += button  # Append to expression
+            self.expression += button  
 
         self.entry.delete(0, tk.END)
         self.entry.insert(tk.END, self.expression)
@@ -78,16 +77,16 @@ class Calculadora:
             self.buttons["sin"].config(text="asin")
             self.buttons["cos"].config(text="acos")
             self.buttons["tan"].config(text="atan")
-            self.buttons["log"].config(text="10^")  # Display correct notation
-            self.buttons["ln"].config(text="e^")    # Display correct notation
-            self.trig_button.config(bg="lightblue")  # Indicar modo inverso
+            self.buttons["log"].config(text="10^")  
+            self.buttons["ln"].config(text="e^")   
+            self.trig_button.config(bg="lightblue")  
         else:
             self.buttons["sin"].config(text="sin")
             self.buttons["cos"].config(text="cos")
             self.buttons["tan"].config(text="tan")
             self.buttons["log"].config(text="log")
             self.buttons["ln"].config(text="ln")
-            self.trig_button.config(bg="lightgray")  # Restaurar color
+            self.trig_button.config(bg="lightgray")  
 
 
 if __name__ == "__main__":
