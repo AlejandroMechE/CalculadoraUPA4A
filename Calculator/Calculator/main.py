@@ -26,7 +26,8 @@ class Calculadora:
             ('4', 2, 0), ('5', 2, 1), ('6', 2, 2), ('*', 2, 3), ('cos', 2, 4),
             ('1', 3, 0), ('2', 3, 1), ('3', 3, 2), ('-', 3, 3), ('tan', 3, 4),
             ('0', 4, 0), ('.', 4, 1), ('C', 4, 2), ('+', 4, 3), ('log', 4, 4),
-            ('pi', 5, 0), ('sqrt', 5, 1), ('(', 5, 2), (')', 5, 3), ('=', 5, 4),
+            ('pi', 5, 0), ('sqrt', 5, 1),('ln',5,2), ('(', 5, 3), (')', 5,4), 
+            ('=', 6, 4),
         ]
 
         self.buttons = {}
@@ -53,7 +54,7 @@ class Calculadora:
                 self.expression = ""
         else:
             # Correct inverse trig functions in input
-            if self.trig_inverse and button in ["sin", "cos", "tan"]:
+            if self.trig_inverse and button in ["sin", "cos", "tan","log","ln"]:
                 button = "a" + button  # Change "sin" → "asin", etc.
 
             self.expression += button  # Append to expression
@@ -69,11 +70,17 @@ class Calculadora:
             self.buttons["sin"].config(text="asin")
             self.buttons["cos"].config(text="acos")
             self.buttons["tan"].config(text="atan")
+            self.buttons["log"].config(text="alog")
+            self.buttons["ln"].config(text="aln")
+            
             self.trig_button.config(bg="lightblue")  # Indicar modo inverso
         else:
             self.buttons["sin"].config(text="sin")
             self.buttons["cos"].config(text="cos")
             self.buttons["tan"].config(text="tan")
+            self.buttons["log"].config(text="log")
+            self.buttons["ln"].config(text="ln")
+
             self.trig_button.config(bg="lightgray")  # Restaurar color
 
 
