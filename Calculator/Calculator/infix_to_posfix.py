@@ -21,7 +21,7 @@ def prioridades(op):
         '^': 3,  
         '(': 0,  
         'log': 4, 'ln': 4, 'sin': 4, 'cos': 4, 'tan': 4,  
-        'asin': 4, 'acos': 4, 'atan': 4, 'e^': 4, '10^': 4
+        'asin': 4, 'acos': 4, 'atan': 4, 'e^': 4, '10^': 4, 'pi':4
     }
     return prioridades.get(op, 0)
 
